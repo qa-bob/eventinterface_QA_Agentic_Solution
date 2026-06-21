@@ -1,0 +1,22 @@
+# CODEOWNERS
+# Syntax: <pattern> <owner1> <owner2>
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default: all files require review from the QA team
+*                           @rosmall
+
+# Core architecture — requires careful review
+src/pages/base.page.ts      @rosmall
+src/fixtures/               @rosmall
+playwright.config.ts        @rosmall
+tsconfig.json               @rosmall
+
+# Claude Code configuration — affects agentic behavior
+CLAUDE.md                   @rosmall
+.claude/                    @rosmall
+
+# CI/CD — affects all test runs
+.github/workflows/          @rosmall
+
+# Visual baselines — must be intentional
+__snapshots__/              @rosmall
