@@ -98,10 +98,7 @@ test.describe('Product Features @functional', () => {
     }
 
     const cards = await featuresPage.getFeatureCards();
-    if (cards.length === 0) {
-      console.warn('[functional] No feature cards identified — skipping card content check');
-      return;
-    }
+    test.skip(cards.length === 0, 'No feature cards identified');
 
     const emptyCards: number[] = [];
     for (let i = 0; i < Math.min(cards.length, 10); i++) {
@@ -173,10 +170,7 @@ test.describe('Product Features @functional', () => {
     }
 
     const hasFAQ = await featuresPage.hasFAQSection();
-    if (!hasFAQ) {
-      console.warn('[functional] No FAQ/accordion section found on features page — skipping');
-      return;
-    }
+    test.skip(!hasFAQ, 'No FAQ/accordion section found on features page');
 
     // Try to find and click the first accordion item
     const accordionItem = page.locator(
@@ -184,7 +178,7 @@ test.describe('Product Features @functional', () => {
       '[class*="faq"] [class*="question"], [class*="faq"] button'
     ).first();
 
-    if (await accordionItem.count() === 0) return;
+    test.skip(await accordionItem.count() === 0, 'No clickable accordion item found');
 
     // Click to expand
     await accordionItem.click();
