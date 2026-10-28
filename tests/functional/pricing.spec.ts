@@ -85,10 +85,7 @@ test.describe('Pricing Page @functional', () => {
     }
 
     const tiers = await featuresPage.getPricingTiers();
-    if (tiers.length === 0) {
-      console.warn('[functional] No structured pricing tiers found — skipping per-tier CTA check');
-      return;
-    }
+    test.skip(tiers.length === 0, 'No structured pricing tiers found');
 
     const tiersWithoutCTA = tiers.filter((t) => !t.hasCTA);
     if (tiersWithoutCTA.length > 0) {
@@ -161,18 +158,15 @@ test.describe('Pricing Page @functional', () => {
     }
 
     const hasFAQ = await featuresPage.hasFAQSection();
-    if (!hasFAQ) {
-      // No FAQ is fine — this is informational only
-      console.warn('[functional] No FAQ section found on pricing page');
-      return;
-    }
+    // No FAQ is fine — this is informational only
+    test.skip(!hasFAQ, 'No FAQ section found on pricing page');
 
     // If FAQ exists, the first item should be clickable
     const faqItem = page.locator(
       'details summary, [class*="faq"] button, [class*="accordion"] button'
     ).first();
 
-    if (await faqItem.count() === 0) return;
+    test.skip(await faqItem.count() === 0, 'No clickable FAQ item found');
 
     await expect(faqItem, 'FAQ item should be visible').toBeVisible();
     await faqItem.click();
@@ -221,10 +215,7 @@ test.describe('Pricing Page @functional', () => {
     });
 
     const count = await ctaButtons.count();
-    if (count === 0) {
-      console.warn('[functional] No explicit CTA buttons found on pricing page');
-      return;
-    }
+    test.skip(count === 0, 'No explicit CTA buttons found on pricing page');
 
     const disabledCTAs: string[] = [];
     for (let i = 0; i < count; i++) {

@@ -101,10 +101,7 @@ test.describe('Homepage Functional @functional', () => {
     const paragraphs = page.locator('p');
     const count = await paragraphs.count();
 
-    if (count === 0) {
-      console.warn('[functional] No <p> elements found on homepage — site may be using divs for text');
-      return;
-    }
+    test.skip(count === 0, 'No <p> elements found on homepage');
 
     // At least one non-trivial paragraph
     const nonEmptyParagraphs = await page.evaluate<number>(() => {
@@ -161,10 +158,7 @@ test.describe('Homepage Functional @functional', () => {
     const footer = page.locator('footer, [role="contentinfo"]').first();
     const footerExists = await footer.count() > 0;
 
-    if (!footerExists) {
-      console.warn('[functional] No <footer> or [role="contentinfo"] found on homepage');
-      return;
-    }
+    test.skip(!footerExists, 'No <footer> or [role="contentinfo"] found on homepage');
 
     await expect(footer, 'Footer should be visible').toBeVisible();
 
@@ -199,7 +193,7 @@ test.describe('Homepage Functional @functional', () => {
   // ── Event planning specific ─────────────────────────────────────────────────
 
   test('homepage references event or meeting management concepts @functional', async ({ page, siteConfig }) => {
-    await page.goto(siteConfig.url, { waitUntil: 'networkidle' });
+    await page.goto(siteConfig.url, { waitUntil: 'load' });
 
     const bodyText = (await page.evaluate<string>(() => document.body.innerText)).toLowerCase();
 
